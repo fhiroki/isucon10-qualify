@@ -2,11 +2,13 @@ version: "3"
 services:
   mysql:
     image: mysql:5.7
+    platform: linux/amd64
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ../mysql/data:/var/lib/mysql
       - ../mysql/db:/docker-entrypoint-initdb.d
       - ../logs/mysql:/var/log/mysql
-      - ../../provisioning/ansible/roles/web-bootstrap/files/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ../../prokkvisioning/ansible/roles/web-bootstrap/files/my.cnf:/etc/mysql/conf.d/my.cnf
       - ../../provisioning/ansible/roles/web-bootstrap/files/slow-mysqld.cnf:/etc/mysql/conf.d/slowquery.cnf
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -27,6 +29,7 @@ services:
     volumes:
       - ../mysql/db:/go/src/mysql/db
       - ../fixture:/go/src/fixture
+      - ../go:/go/src/isuumo
     environment:
       MYSQL_DBNAME: isuumo
       MYSQL_USER: isucon
